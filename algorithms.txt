@@ -4,3 +4,11 @@ Mainly include data minging and machine learning algotithms
 Hope I can learn data science sucessfully
 I want to be a man just like Andrew Ng.
 ###########################################################
+
+2015.11.18 Git
+Git是一个版本控制工具，需要控制的信息可以保存在本地和Github上，因此区分为两种不同的保存。
+构建本体的Git版本库的方法是：
+	1.在本地构建一个文件夹
+	2.在git中采用 git init 命令将本文件夹设置为git版本库
+	3.如果有文件放入该文件夹后，采用 git add 文件名字（需要后缀） 将文件纳入git版本控制之中
+	4.编辑完成之后，采用 git commit -m "修改信息"  将文件修改信息进行提交
