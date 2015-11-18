@@ -1,0 +1,6 @@
+############################################################
+This is a file to save my notes in data science.
+Mainly include data minging and machine learning algotithms
+Hope I can learn data science sucessfully
+I want to be a man just like Andrew Ng.
+###########################################################
