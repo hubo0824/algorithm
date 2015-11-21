@@ -1,0 +1,145 @@
+############################################################
+This is a file to save my notes in data science.
+Mainly include data minging and machine learning algotithms
+Hope I can learn data science sucessfully
+I want to be a man just like Andrew Ng.
+
+Git学习主要是为了以后可以方便，这里的学习笔记全部来自
+廖雪峰老师的网站。感谢廖老师的工作和奉献让我能够接触到这么
+简单易懂的git教程从而快速上手。在此致谢。
+###########################################################
+
+2015.11.18 Git
+Git是一个版本控制工具，需要控制的信息可以保存在本地和Github上，因此区分为两种不同的保存。
+构建本体的Git版本库的方法是：
+	1.在本地构建一个文件夹
+	2.在git中采用 git init 命令将本文件夹设置为git版本库
+	3.如果有文件放入该文件夹后，采用 git add 文件名字（需要后缀） 将文件纳入git版本控制之中
+	4.编辑完成之后，采用 git commit -m "修改信息"  将文件修改信息进行提交
+注意：每次完成修改的时候，都需要在git中完成第3,4步操作才算是真正的将文件进行了修改和添加。即 git add 与 git commit -m 是链接在一起的命令先后执行，不可分割。
+
+命令2：当前现状和更改问题  （主要命令： git status | git diff）
+	在不了解git现在的状态的话，采用 git status 查看当前git库中的信息。
+	如果有修改的话，采用 git diff 命令查看修改的内容。
+	
+	
+命令3：各种版本的控制和版本回退  （主要命令 ： git log | git reset --hard 版本号（HEAD^ 或者编号）| git reflog）
+	当前存在的版本永远被定义为HEAD 往后回退的话加上相应个数的^  如果有太多个就加上~num
+	查看往期的提交版本信息 采用命令 git log 
+	让显示的信息比较好看   采用命令 git log --pretty=online
+	由此可以看到往期提交的文件的不同版本
+	
+	如果需要回退到某个版本中， 采用命令 git reset --hard 版本号（HEAD^）
+	如果需要查看往期的命令信息（在关闭后重新打开的git中） 采用命令 git reflog
+
+	
+2015.11.19 Git
+Git版本管理工具管理的是文件的修改，而不是文件。所以每次修改文件之后，都需要先将其 git add 到暂存区，然后提交。 因为每次提交的都是 git add 后保存在暂存区的内容。
+	如果自己写了一些错误的东西，想要修改的话，分为三种情况：
+	1. 自己刚修改了之后，还没有 git add 至暂存区：
+		直接采用 git checkout -- filename 可以删除修改
+	2. 自己修改了之后，已经被 git add 至暂存区了：
+		分两步进行删除修改：（1）首先将文件退出暂存区 git reset HEAD filename
+							（2）然后就回到了情况1中的情况，再采用 git checkout -- filename
+	3. 已经在本地 git commit 之后：
+		就是单纯的版本回退问题。参考上一个笔记  命令包含（git log | git reset --hard 版本号）
+	删除相关操作：
+	删除相关文件后，也分两种情况：
+		1. 正常删除  rm file
+			之后需要在版本库里将文件进行删除：git rm filename | git commit -m "message"
+		2. 错误删除
+			可以从版本库中将文件重新找回来： git checkout -- filename （此操作相当于用版本库中文件覆盖当前工作区文件）
+	
+	心得笔记：
+		git中存在着不同工作区的概念：自身电脑所在的工作区，是我们存放文件的地方。其次是git的版本库。这两个可以视为是平行的。
+		其次，在git版本库中，还存在着不同工作区的概念：暂存区和commit成功后的保存区，这也对应这不同的操作。
+		git reset 和git checkout 两个命令的区别：
+			git reset 主要用于回退版本，还可以会把当前缓存区的文件回退到工作区
+			git checkout 也含有多种含义。
+				单纯的是进行分支的切换
+			如果含有 --  则是进行文件的恢复含义
+		
+2015.11.21 Git
+Git版本工具的远程仓库对应于Github上的库，可以将本地的仓库提交至远程保存、共享等。
+	首先在远程建立一个repo，之后就可以在本地进行提交。
+	之前的准备工作包括：
+		1.远程建立一个repo
+		2.对于每一台电脑，需要往自己的Github上提交的，需要在本地建立一个SSH链接，提供出公钥和私钥，然后在远程添加后，就可以在不同的电脑上提交
+		3.本地进入需要提交的版本库工作路径下，进行提交。
+	具体建立链接的步骤如下：
+		1.创建SSH key: 命令 ssh-keygen -t rsa -C email
+		2.将产生的公钥添加到远程上
+	建立好链接之后，以后就可以在该电脑上提交项目了，提交步骤如下：
+		1.首先在本地的版本库中将文件提交
+		2.建立与远程库的链接：
+			git remote add origin git@github.com:hubo0824/reponame.git
+			此处需要注意后面的是路径名 即是在远程上创建的项目名称，就是想要提交至远程的版本库的名称，而被提交的本地项目则是当前工作路径下的项目。
+		3.进行提交项目
+			git push origin master（如果是首次提交，需要 git push -u origin master）
+		最终完成了远程项目的提交。
+
+		
+至此为止，都是学习从本地创建项目然后提交到远程的仓库，现在转化思维，从远程克隆项目到本地进行获取。
+	首先在Github上创建一个项目，然后再复制到本地，这样就可以进行多人协作的开发。
+	1.在Github上创建一个repo
+	2.将项目克隆到本地进行操作：git clone git@github：hubo0824/reponame.git
+	这样再打开本项目就可以了
+
+	注意Github提供了两种基于不同协议的链接方式，SSH协议额HTTP协议，其中SSH协议更快，所以一般用SSH协议
+	
+	
+分支技术
+	git鼓励使用分支进行合作，分支的含义就是当前的版本库属于主分支 master , 每个人可以在自己的版本库下创建一个属于自己的分支而与主分支不干扰。
+	从而可以进行自己的修改，如果修改没有问题的话，就将主分支与自己的当前分支进行合并即可。需查看分支就用 git branch
+	主要命令：
+	查看分支：   git branch 
+	创建分支：   git branch branchname
+	转化分支:    git checkout branchname
+	创建并转化分支： git checkout -b branchname
+	合并分支：   git merge branchname  （合并某分支到当前所在分支）
+	删除分支：   git branch -d branchname
+	技术实现：
+		1.在主分支上转化到自己的分支： git checkout -b branchname （此处合并两个命令： 创建 git branch name | git checkout name 创建和转化）
+		2.在自己分支上进行修改
+		3.提交完成后，将分支与主分支合并 git merge branchname
+
+	分支冲突：
+		在不同的分支下进行了修改并且进行了提交之后，如果修改不一致，在进行分支合并的时候就会产生冲突，必须解决冲突后在进行提交。
+		git log --graph查看分支合并图
+	不使用Fast forward合并策略（即保存分支信息）
+		在git中可以保存分支信息进行工作：
+			git merge --no--ff -m "not use fast forward合并策略" branchname
+			此操作意味着合并的时候，分支的工作信息还存在。
+			在工作的时候都应该在分支上进行clone，然后自己进行修改，最终合并到分支上，开发完成后用master发布版本信息。
+	
+	修改Bug方法：
+		在git中突然产生了一个bug需要进行修改，但是当前工作区的工作还未完成不能提交，此时采用暂时将当前的工作保存起来的方法进行修改。
+		方法：
+			1.git stash 保存当前的工作
+			2.进入固定分支进行修改需要修改的bug（方法是在这个分支创建一个分支进行修改，然后提交合并）
+			3.在回到之前保存工作的分支上恢复工作区   可以用 stash list 进行查看保存的列表
+				方法：（1）直接删除式恢复文件 git stash pop
+					  （2）先恢复后删除 git stash apply 然后 git stash drop 就可以了
+	开发新功能的时候
+		在分支上进行开发，测试。如果不需要了进行删除的时候，因为该分支没有被合并，所以只能强制性删除。
+		强制删除方法： git branch -D branchname
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
